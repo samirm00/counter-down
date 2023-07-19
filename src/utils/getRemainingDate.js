@@ -11,33 +11,33 @@ const getRemainingDate = () => {
     const futureMilliseconds = getFutureDate().futureMilliseconds; // future milliseconds
     const nowMilliseconds = new Date().getTime(); // future milliseconds
 
-    const remainingMilliseconds = futureMilliseconds - nowMilliseconds;
+    let remainingMilliseconds = futureMilliseconds - nowMilliseconds;
 
-    const dayInMilliseconds = 24 * 60 * 60 * 1000;
-    const hourInMilliseconds = 60 * 60 * 1000;
-    const minuteInMilliseconds = 60 * 1000;
-    const secondInMilliseconds = 1000;
+    const millisecondsPerSecond = 1000;
+    const millisecondsPerMinute = millisecondsPerSecond * 60;
+    const millisecondsPerHour = millisecondsPerMinute * 60;
+    const millisecondsPerDay = millisecondsPerHour * 24;
 
     let days = formatDateUnit(
-        Math.floor(remainingMilliseconds / dayInMilliseconds) // days
+        Math.floor(remainingMilliseconds / millisecondsPerDay)
     );
+
+    remainingMilliseconds = remainingMilliseconds % millisecondsPerDay;
+
     let hours = formatDateUnit(
-        Math.floor(
-            (remainingMilliseconds % dayInMilliseconds) / hourInMilliseconds // hours
-        )
+        Math.floor(remainingMilliseconds / millisecondsPerHour)
     );
+
+    remainingMilliseconds = remainingMilliseconds % millisecondsPerHour;
 
     let minutes = formatDateUnit(
-        Math.floor(
-            (remainingMilliseconds % hourInMilliseconds) / minuteInMilliseconds // minutes
-        )
+        Math.floor(remainingMilliseconds / millisecondsPerMinute)
     );
 
+    remainingMilliseconds = remainingMilliseconds % millisecondsPerMinute;
+
     let seconds = formatDateUnit(
-        Math.floor(
-            (remainingMilliseconds % minuteInMilliseconds) / // seconds
-                secondInMilliseconds
-        )
+        Math.floor(remainingMilliseconds / millisecondsPerSecond)
     );
 
     return {
